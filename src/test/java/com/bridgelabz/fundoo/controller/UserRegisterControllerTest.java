@@ -26,62 +26,72 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc
 public class UserRegisterControllerTest {
 
-	@Autowired
-	MockMvc mockMvc;
-	
-	@MockBean
-	RegisterUser registerUser;
-	
-	@Autowired
-	Gson gson;
-	
-	UserDetailsDTO userDetailsDTO;
-	UserDetails userDetails;
-	String userDetailsJson;
-	
-	@BeforeEach
-	void setUp() {
-		userDetailsDTO = new UserDetailsDTO("Clark", "Kent", "clarkkent@fundoo.com","Martha@123",31);
-		userDetails = new UserDetails(userDetailsDTO);
-		userDetailsJson = gson.toJson(userDetails);
-	}
-	
-	@Test
-	void givenRequest_whenGetResponse_shouldReturnStatusOk() throws Exception {
-		when(registerUser.addUser(any())).thenReturn("UserRegistered Successful");
-		MvcResult mvcResult = this.mockMvc.perform(post("/user/register").content(userDetailsJson)
-				.contentType(MediaType.APPLICATION_JSON)).andReturn();
-		Assert.assertEquals(200, mvcResult.getResponse().getStatus());
-		Assert.assertEquals("UserRegistered Successful", mvcResult.getResponse().getContentAsString());
-	}
-	
-	@Test
-	void givenRequest_whenInvalidMediaType_shouldReturnStatus415() throws Exception {		
-		MvcResult mvcResult = this.mockMvc.perform(post("/user/register").content(userDetailsJson)
-				.contentType(MediaType.APPLICATION_ATOM_XML)).andReturn();
-		Assert.assertEquals(415, mvcResult.getResponse().getStatus());
-	}
-	
-	@Test
-	void givenRequest_whenInvalidURL_shouldReturnStatus404() throws Exception {
-		MvcResult mvcResult = this.mockMvc.perform(post("/user/registeration").content(userDetailsJson)
-				.contentType(MediaType.APPLICATION_JSON)).andReturn();
-		Assert.assertEquals(404, mvcResult.getResponse().getStatus());
-	}
-	
-	@Test
-	void givenRequest_whenNoBody_shouldReturnStatus400() throws Exception {
-		MvcResult mvcResult = this.mockMvc.perform(post("/user/register")).andReturn();
-		Assert.assertEquals(400, mvcResult.getResponse().getStatus());
-	}
-	
-	@Test
-	void givenRequest_whenUserAlreadyRegistered_shouldThrowException() throws Exception {
-		try {
-			when(registerUser.addUser(any())).thenThrow(new FundooException("User Already Registered"));
-			MvcResult mvcResult = this.mockMvc.perform(post("/user/register")).andReturn();
-		} catch(FundooException e) {
-			Assert.assertEquals("User Already Registered", e.getMessage());
-		}
-	}
+    @Autowired
+    MockMvc mockMvc;
+
+    @MockBean
+    RegisterUser registerUser;
+
+    @Autowired
+    Gson gson;
+
+    UserDetailsDTO userDetailsDTO;
+    UserDetails userDetails;
+    String userDetailsJson;
+
+    @BeforeEach
+    void setUp() {
+        userDetailsDTO = new UserDetailsDTO("Clark", "Kent", "clarkkent@fundoo.com", "Martha@123", 31, "7897897897");
+        userDetails = new UserDetails(userDetailsDTO);
+        userDetailsJson = gson.toJson(userDetails);
+    }
+
+    @Test
+    void givenRequest_whenGetResponse_shouldReturnStatusOk() throws Exception {
+        when(registerUser.addUser(any())).thenReturn("UserRegistered Successful");
+        MvcResult mvcResult = this.mockMvc.perform(post("/user/register").content(userDetailsJson)
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        Assert.assertEquals(200, mvcResult.getResponse().getStatus());
+        Assert.assertEquals("UserRegistered Successful", mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void givenRequest_whenInvalidMediaType_shouldReturnStatus415() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(post("/user/register").content(userDetailsJson)
+                .contentType(MediaType.APPLICATION_ATOM_XML)).andReturn();
+        Assert.assertEquals(415, mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenRequest_whenInvalidURL_shouldReturnStatus404() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(post("/user/registeration").content(userDetailsJson)
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        Assert.assertEquals(404, mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenRequest_whenNoBody_shouldReturnStatus400() throws Exception {
+        MvcResult mvcResult = this.mockMvc.perform(post("/user/register")).andReturn();
+        Assert.assertEquals(400, mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void givenRequest_whenUserAlreadyRegistered_shouldThrowException() throws Exception {
+        try {
+            when(registerUser.addUser(any())).thenThrow(new FundooException("User Already Registered"));
+            MvcResult mvcResult = this.mockMvc.perform(post("/user/register")).andReturn();
+        } catch (FundooException e) {
+            Assert.assertEquals("User Already Registered", e.getMessage());
+        }
+    }
+
+    @Test
+    void givenRequest_whenInvalidData_shouldThrowException() throws Exception {
+        userDetailsDTO.firstName = "Kent@";
+        userDetailsJson = gson.toJson(userDetailsDTO);
+        when(registerUser.addUser(any())).thenThrow(new FundooException("Enter valid input"));
+        MvcResult mvcResult = this.mockMvc.perform(post("/user/register").content(userDetailsJson)
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        Assert.assertEquals("Enter valid input", mvcResult.getResponse().getContentAsString());
+    }
 }

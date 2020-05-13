@@ -26,6 +26,7 @@ public class UserDetailsDTO {
     
     @Range(min = 1, max = 150, message = "Enter valid age")
     public int age;
-    
-    
+
+    @Pattern(regexp = "^[7-9]\\d{9}$")
+    public String mobileNumber;
 }

@@ -27,6 +27,7 @@ public class UserDetails {
     public String password;
     public String email;
     public int age;
+    public String mobileNumber;
 
     public UserDetails(UserDetailsDTO userDetailsDTO) {
         this.firstName = userDetailsDTO.firstName;
@@ -34,5 +35,6 @@ public class UserDetails {
         this.email = userDetailsDTO.email;
         this.password = userDetailsDTO.password;
         this.age = userDetailsDTO.age;
+        this.mobileNumber = userDetailsDTO.mobileNumber;
     }
 }
