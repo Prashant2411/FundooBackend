@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class RegisterUser implements IRegister {
+public class RegisterUser implements IRegisterUser {
 
     @Autowired
     UserDetailsRepository userDetailsRepo;

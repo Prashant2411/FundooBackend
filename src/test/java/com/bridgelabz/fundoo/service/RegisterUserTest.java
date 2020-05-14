@@ -37,7 +37,7 @@ public class RegisterUserTest {
     @BeforeEach
     void setUp() {
         userDetailsDTO = new UserDetailsDTO("Clark", "Kent", "clarkkent@fundoo.com", "Martha@123", 31, "7897897897");
-        userDetails = new UserDetails(userDetailsDTO);
+        userDetails = new UserDetails(1,"Clark", "Kent", "clarkkent@fundoo.com", "Martha@123", 31, "7897897897");
     }
 
     @Test
@@ -51,7 +51,8 @@ public class RegisterUserTest {
     @Test
     void givenUserDetails_whenEmailAlreadyUsed_thenReturnException() {
         try {
-            when(userDetailsRepo.findByEmail(any())).thenThrow(new FundooException("User already registered with this email id"));
+            when(userDetailsRepo.findByEmail(any())).thenReturn(Optional.of(userDetails));
+            registerUser.addUser(userDetailsDTO);
         } catch (FundooException e) {
             Assert.assertEquals("User already registered with this email id",e.getMessage());
         }

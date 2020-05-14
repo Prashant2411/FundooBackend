@@ -7,15 +7,13 @@ import javax.persistence.Id;
 
 import com.bridgelabz.fundoo.dto.UserDetailsDTO;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class UserDetails {
 
