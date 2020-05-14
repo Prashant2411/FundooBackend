@@ -1,17 +1,17 @@
 package com.bridgelabz.fundoo.controller;
 
-import javax.validation.Valid;
-
+import com.bridgelabz.fundoo.dto.UserLoginDTO;
 import com.bridgelabz.fundoo.exception.FundooException;
+import com.bridgelabz.fundoo.service.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.bridgelabz.fundoo.dto.UserLoginDTO;
-import com.bridgelabz.fundoo.service.UserLogin;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserLoginController {
 	
 	@Autowired

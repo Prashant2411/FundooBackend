@@ -22,6 +22,7 @@ public class RegisterUser implements IRegisterUser {
     @Override
     public String addUser(UserDetailsDTO userRegisterDTO) {
         UserDetails user = new UserDetails(userRegisterDTO);
+        user.password = encoder.encode(user.password);
         Optional<UserDetails> isEmailRegistered = userDetailsRepo.findByEmail(userRegisterDTO.email);
         if(isEmailRegistered.isPresent())
             throw new FundooException("User already registered with this email id");

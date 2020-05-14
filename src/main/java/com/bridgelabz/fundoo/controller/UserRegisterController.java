@@ -2,18 +2,16 @@ package com.bridgelabz.fundoo.controller;
 
 import com.bridgelabz.fundoo.dto.UserDetailsDTO;
 import com.bridgelabz.fundoo.exception.FundooException;
-import com.bridgelabz.fundoo.model.UserDetails;
 import com.bridgelabz.fundoo.service.RegisterUser;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserRegisterController {
 
     @Autowired

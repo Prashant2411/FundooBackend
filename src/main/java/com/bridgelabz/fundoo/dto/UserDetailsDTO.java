@@ -1,12 +1,11 @@
 package com.bridgelabz.fundoo.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.Range;
-
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 @NoArgsConstructor
 @AllArgsConstructor
