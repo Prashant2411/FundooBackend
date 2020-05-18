@@ -28,4 +28,5 @@ public class UserLoginController {
 			throw new FundooException("Enter valid input");
 		return login.getUserLoggedIn(userLogin);
 	}
+
 }

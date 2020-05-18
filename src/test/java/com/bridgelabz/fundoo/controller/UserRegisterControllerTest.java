@@ -1,5 +1,6 @@
 package com.bridgelabz.fundoo.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import org.junit.Assert;
@@ -45,6 +46,8 @@ public class UserRegisterControllerTest {
         userDetails = new UserDetails(userDetailsDTO);
         userDetailsJson = gson.toJson(userDetails);
     }
+
+    //Register
 
     @Test
     void givenRequest_whenGetResponse_shouldReturnStatusOk() throws Exception {
@@ -93,5 +96,22 @@ public class UserRegisterControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(post("/user/register").content(userDetailsJson)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         Assert.assertEquals("Enter valid input", mvcResult.getResponse().getContentAsString());
+    }
+
+    //Email Availability
+
+    @Test
+    void givenEmailForAvailability_whenEmailAvailable_shouldReturnTrue() throws Exception {
+        when(registerUser.isEmailAvailable(any())).thenReturn(true);
+        MvcResult mvcResult = this.mockMvc.perform(get("/user/email-availability/prashantbedi@gmail.com")).andReturn();
+        Assert.assertEquals(200, mvcResult.getResponse().getStatus());
+        Assert.assertEquals("true", mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void givenEmailForAvailability_whenEmailNotAvailable_shouldReturnFalse() throws Exception {
+        when(registerUser.isEmailAvailable(any())).thenReturn(false);
+        MvcResult mvcResult = this.mockMvc.perform(get("/user/email-availability/prashantbedi@gmail.com")).andReturn();
+        Assert.assertEquals("false", mvcResult.getResponse().getContentAsString());
     }
 }

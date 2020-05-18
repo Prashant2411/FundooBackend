@@ -29,4 +29,9 @@ public class RegisterUser implements IRegisterUser {
         userDetailsRepo.save(user);
         return "User Registered Successfully";
     }
+
+    public boolean isEmailAvailable(String email) {
+        Optional<UserDetails> emailPresent = userDetailsRepo.findByEmail(email);
+        return emailPresent.isEmpty();
+    }
 }

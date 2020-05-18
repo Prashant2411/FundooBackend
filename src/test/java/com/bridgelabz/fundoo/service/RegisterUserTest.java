@@ -21,12 +21,16 @@ import com.bridgelabz.fundoo.dto.UserDetailsDTO;
 import com.bridgelabz.fundoo.repository.UserDetailsRepository;
 
 import org.junit.Assert;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootTest
 public class RegisterUserTest {
 
     @Mock
     UserDetailsRepository userDetailsRepo;
+
+    @Mock
+    BCryptPasswordEncoder encoder;
 
     @InjectMocks
     RegisterUser registerUser;
@@ -44,6 +48,7 @@ public class RegisterUserTest {
     void givenUserDetails_whenRegisterDetails_shouldReturnUserAddedSuccessfully() {
         when(userDetailsRepo.findByEmail(any())).thenReturn(Optional.empty());
         when(userDetailsRepo.save(any())).thenReturn(userDetails);
+        when(encoder.encode(any())).thenReturn("$6713yuivfaj68#24iods");
         String message = registerUser.addUser(userDetailsDTO);
         Assert.assertEquals("User Registered Successfully", message);
     }
@@ -52,6 +57,7 @@ public class RegisterUserTest {
     void givenUserDetails_whenEmailAlreadyUsed_thenReturnException() {
         try {
             when(userDetailsRepo.findByEmail(any())).thenReturn(Optional.of(userDetails));
+            when(encoder.encode(any())).thenReturn("$6713yuivfaj68#24iods");
             registerUser.addUser(userDetailsDTO);
         } catch (FundooException e) {
             Assert.assertEquals("User already registered with this email id",e.getMessage());
