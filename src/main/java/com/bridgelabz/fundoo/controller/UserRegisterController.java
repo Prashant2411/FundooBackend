@@ -23,4 +23,10 @@ public class UserRegisterController {
             throw new FundooException("Enter valid input");
         return userService.addUser(userRegisterDTO);
     }
+
+    @GetMapping("/email-availability/{email}")
+    public boolean isEmailAvailable(@PathVariable String email) {
+        return userService.isEmailAvailable(email);
+    }
+
 }
