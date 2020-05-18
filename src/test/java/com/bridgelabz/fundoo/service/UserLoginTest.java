@@ -43,6 +43,7 @@ public class UserLoginTest {
     }
 
     //Verify Email
+
     @Test
     void givenValidEmail_whenVerifyEmail_shouldReturnTrue() {
         when(userDetailsRepo.findByEmail(any())).thenReturn(Optional.of(userDetails));

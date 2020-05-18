@@ -44,6 +44,8 @@ public class RegisterUserTest {
         userDetails = new UserDetails(1,"Clark", "Kent", "clarkkent@fundoo.com", "Martha@123", 31, "7897897897");
     }
 
+    //Register
+
     @Test
     void givenUserDetails_whenRegisterDetails_shouldReturnUserAddedSuccessfully() {
         when(userDetailsRepo.findByEmail(any())).thenReturn(Optional.empty());
@@ -62,5 +64,21 @@ public class RegisterUserTest {
         } catch (FundooException e) {
             Assert.assertEquals("User already registered with this email id",e.getMessage());
         }
+    }
+
+    //Email Availability
+
+    @Test
+    void givenEmailForAvailability_whenAvailable_thenReturnTrue() {
+        when(userDetailsRepo.findByEmail(any())).thenReturn(Optional.empty());
+        boolean emailAvailable = registerUser.isEmailAvailable("prashantbedi@gmail.com");
+        Assert.assertTrue(emailAvailable);
+    }
+
+    @Test
+    void givenEmailForAvailability_whenNotAvailable_thenReturnFalse() {
+        when(userDetailsRepo.findByEmail(any())).thenReturn(Optional.of(userDetails));
+        boolean emailAvailable = registerUser.isEmailAvailable("prashantbedi@gmail.com");
+        Assert.assertFalse(emailAvailable);
     }
 }

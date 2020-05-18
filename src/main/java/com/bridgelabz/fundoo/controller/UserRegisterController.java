@@ -18,8 +18,8 @@ public class UserRegisterController {
     RegisterUser userService;
 
     @PostMapping("/register")
-    public String registerUser(@Valid @RequestBody UserDetailsDTO userRegisterDTO, BindingResult bindingResult){
-        if(bindingResult.hasErrors())
+    public String registerUser(@Valid @RequestBody UserDetailsDTO userRegisterDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
             throw new FundooException("Enter valid input");
         return userService.addUser(userRegisterDTO);
     }
