@@ -15,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -93,5 +96,17 @@ public class UserLoginControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(post("/user/login").content(userLoginJson)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         Assert.assertEquals("Enter valid input", mvcResult.getResponse().getContentAsString());
+    }
+
+    //Forgot Email
+
+    @Test
+    void givenMobileNumber_whenForgotEmail_shouldReturnEmail() throws Exception {
+        List<String> email = new ArrayList<String>();
+        email.add("clarkkent@fundoo.com");
+        email.add("brucewayne@fundoo.com");
+        when(userLogin.forgetEmail(any())).thenReturn(email);
+        MvcResult mvcResult = this.mockMvc.perform(get("/user/forget-email/9090909090")).andReturn();
+        Assert.assertTrue(mvcResult.getResponse().getContentAsString().contains(email.get(0)));
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +38,12 @@ public class UserLogin implements IUserLogin {
         if (encoder.matches(userLogin.password,isEmailPresent.get().password))
             return tokenGenerator.generateToken(userLogin);
         throw new FundooException("Enter valid password");
+	}
+
+	public List forgetEmail(String mobileNumber) {
+		List<String> byMobileNumber = userDetailsRepo.findEmailByMobileNumber(mobileNumber);
+		if(byMobileNumber.size() == 0 )
+			throw new FundooException("No acoount linked with this email");
+		return byMobileNumber;
 	}
 }

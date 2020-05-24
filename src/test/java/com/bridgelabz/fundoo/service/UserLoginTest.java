@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -88,6 +90,29 @@ public class UserLoginTest {
             Assert.assertEquals("asdasd231", message);
         } catch (FundooException e) {
             Assert.assertEquals("Enter valid password", e.getMessage());
+        }
+    }
+
+    //Forgot Email
+
+
+    @Test
+    void givenMobileNumber_whenForgotEmail_shouldReturnEmail() {
+        List<String> email = new ArrayList<String>();
+        email.add("clarkkent@fundoo.com");
+        email.add("brucewayne@fundoo.com");
+        when(userDetailsRepo.findEmailByMobileNumber(any())).thenReturn(email);
+        List<String> emailList = userLogin.forgetEmail("9090909090");
+        Assert.assertEquals(email, emailList);
+    }
+
+    @Test
+    void givenMobileNumber_whenMobileNumberNotFound_shouldReturnException() {
+        try {
+            when(userDetailsRepo.findEmailByMobileNumber(any())).thenReturn(new ArrayList<String>());
+            List<String> emailList = userLogin.forgetEmail("9090909090");
+        } catch(FundooException e) {
+            Assert.assertEquals("No acoount linked with this email",e.getMessage());
         }
     }
 }

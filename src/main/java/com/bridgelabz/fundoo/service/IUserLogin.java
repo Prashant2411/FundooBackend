@@ -2,7 +2,9 @@ package com.bridgelabz.fundoo.service;
 
 import com.bridgelabz.fundoo.dto.UserLoginDTO;
 
+import java.util.List;
+
 public interface IUserLogin {
-	public boolean isEmailValid(String email);
-	public String getUserLoggedIn(UserLoginDTO userLogin);
+	boolean isEmailValid(String email);
+	String getUserLoggedIn(UserLoginDTO userLogin);
 }

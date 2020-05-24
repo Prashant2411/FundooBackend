@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -29,4 +30,8 @@ public class UserLoginController {
 		return login.getUserLoggedIn(userLogin);
 	}
 
+	@GetMapping("/forgot-email/{mobileNumber}")
+    public List forgetEmail(@PathVariable String mobileNumber) {
+	    return login.forgetEmail(mobileNumber);
+    }
 }
